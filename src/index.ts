@@ -2,26 +2,32 @@ export type Solution = [number, number, number, number];
 
 export function getnth(n: number) {
   if (n === 0) return [0, 0, 0, 0];
-}
-
-export class NumIterator {
-  constructor(protected _cur: number, protected _end: number) {}
-  next() {
-    return new NumIterator(this._cur + 1, this._end);
-  }
-  done() {
-    return this._cur >= this._end;
-  }
-  value() {
-    return this._cur;
+  for (let i = 1; true; i++) {
+    const side = 2 * i + 1;
+    const size = Math.pow(side, 4);
+    if (n < size) {
+      let count = Math.pow(side - 2, 4);
+      for (let x1 = -i; x1 <= i; x1++) {
+        for (let x2 = -i; x2 <= i; x2++) {
+          for (let x3 = -i; x3 <= i; x3++) {
+            for (let x4 = -i; x4 <= i; x4++) {
+              const cur = [x1, x2, x3, x4];
+              if (cur.every((x) => x !== i && x !== -i)) continue;
+              if (count === n) return cur;
+              count++;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
 export function range(start: number, end: number) {
-  return new SomeClass(start, end);
+  return new RangeIterator(start, end);
 }
 
-class SomeClass {
+class RangeIterator {
   protected _cur: number;
   constructor(start: number, protected end: number) {
     this._cur = start;
